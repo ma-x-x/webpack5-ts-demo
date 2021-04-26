@@ -23,5 +23,11 @@
     "jsx": "react-jsx",
     "types": ["webpack-env"]
   },
-  "include": ["src", "config", "scripts"]
+  "include": [
+    "src",
+    "config",
+    "scripts",
+    ".storybook/main.js",
+    ".storybook/preview.js"
+  ]
 }

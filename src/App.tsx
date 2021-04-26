@@ -1,5 +1,6 @@
 import React from 'react';
 import './App.css';
+import CardTest from '@/components/card/CardTest';
 import logo from './logo.svg';
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
         >
           Learn App
         </a>
+        <CardTest name="test" />
       </header>
     </div>
   );

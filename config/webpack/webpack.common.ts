@@ -143,6 +143,7 @@ const commonConfig: Configuration = {
     path: paths.appDist,
     filename: `js/[name]${isDev ? '' : '.[fullhash:8]'}.js`,
     publicPath: isDev ? '/' : '.',
+    clean: true, // 构建之前清理
   },
 };
 

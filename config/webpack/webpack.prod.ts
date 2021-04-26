@@ -68,6 +68,9 @@ const prodConfig: Configuration = {
     DotenvWebpackPluginGenerator(),
     // new SizePlugin({ writeFile: false }),
   ].filter(Boolean) as Configuration['plugins'],
+  performance: {
+    hints: false,
+  },
 };
 
 // const smp = new SpeedMeasurePlugin();
