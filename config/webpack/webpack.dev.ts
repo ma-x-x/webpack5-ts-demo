@@ -6,6 +6,11 @@ import { merge } from 'webpack-merge';
 import commonConfig from './webpack.common';
 import DotenvWebpackPluginGenerator from '../plugins/DotenvWebpackPlugin';
 
+const handler = (percentage: number, message: string, ...args: [string]) => {
+  // e.g. Output each progress message directly to the console:
+  console.info(percentage, message, ...args);
+};
+
 const hotMiddlewareOptions: webpackHotMiddleware.ClientOptions = {
   // 编译出错会在网页中显示出错信息遮罩
   overlay: true,
@@ -18,7 +23,8 @@ const hotMiddlewareOptions: webpackHotMiddleware.ClientOptions = {
 };
 const devConfig: Configuration = {
   mode: 'development',
-  devtool: 'eval-source-map',
+  // devtool: 'eval-source-map',
+  devtool: false,
   entry: {
     // 只有 main 入口，记得名称一致，用于合并
     main: [
@@ -29,7 +35,9 @@ const devConfig: Configuration = {
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
+    new webpack.ProgressPlugin(handler),
     new ReactRefreshWebpackPlugin(),
+    new webpack.SourceMapDevToolPlugin({}),
     DotenvWebpackPluginGenerator(),
   ].filter(Boolean) as Configuration['plugins'],
 };

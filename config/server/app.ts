@@ -6,7 +6,7 @@ import open from 'open';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 import cors from 'cors';
-import { getRandomPort, loadMockRoutes, resolve } from '../util';
+import { getRandomPort, loadMockRoutes } from '../util';
 import { devPort, isOpenBrowser, mock } from '../config';
 import proxySetting from './proxy';
 import paths from '../paths';
@@ -49,7 +49,7 @@ class Application {
 
   private async initMock() {
     // You can use mocker-api repo
-    const parentPath = resolve(paths.appMock);
+    const parentPath = paths.appMock;
     const routesMap = await loadMockRoutes(parentPath, '/', {
       include: /\.ts$/,
     });

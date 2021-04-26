@@ -12,10 +12,11 @@ import paths from '../paths';
 const commonConfig: Configuration = {
   target: 'web',
   entry: {
-    main: [resolve(isDev ? './dev-helper.ts' : paths.appIndexJs)],
+    main: [isDev ? resolve('./dev-helper.ts') : paths.appIndexJs],
   },
   optimization: {
     splitChunks: {
+      // include all types of chunks
       chunks: 'all',
       cacheGroups: {
         vendor: {
@@ -28,7 +29,7 @@ const commonConfig: Configuration = {
   },
   resolve: {
     alias: {
-      '@': resolve('../src'),
+      '@': paths.appSrc,
     },
     extensions: ['.ts', '.tsx', '.js', '.jsx', '.json', '.less', '.css'],
   },
@@ -59,7 +60,7 @@ const commonConfig: Configuration = {
         ],
         // 指定范围
         exclude: /node_modules/,
-        include: resolve('../src'),
+        include: paths.appSrc,
       },
       { test: /.(css)$/, use: getCssLoaders(1) },
       {
@@ -101,7 +102,7 @@ const commonConfig: Configuration = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: resolve(paths.appHtml),
+      template: paths.appHtml,
       filename: 'index.html',
       cache: false,
       title: projectName,
@@ -122,14 +123,14 @@ const commonConfig: Configuration = {
     new CopyWebpackPlugin({
       patterns: [
         {
-          from: resolve(paths.appPublic),
+          from: paths.appPublic,
           filter: (resourcePath) => {
             if (resourcePath.includes('index.html')) {
               return false;
             }
             return true;
           },
-          to: resolve(paths.appBuild),
+          to: paths.appDist,
         },
       ],
     }),
@@ -139,9 +140,9 @@ const commonConfig: Configuration = {
   ].filter(Boolean) as Configuration['plugins'],
   // Where webpack outputs the assets and bundles
   output: {
-    path: paths.appBuild,
-    filename: '[name].bundle.js',
-    publicPath: '.',
+    path: paths.appDist,
+    filename: `js/[name]${isDev ? '' : '.[fullhash:8]'}.js`,
+    publicPath: isDev ? '/' : '.',
   },
 };
 
