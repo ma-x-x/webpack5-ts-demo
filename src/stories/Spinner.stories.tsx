@@ -1,5 +1,6 @@
 import React from 'react';
-import { Spinner } from '../components/spinner/Spinner';
+import { storiesOf } from '@storybook/react';
+import { Spinner } from '@/components/spinner/Spinner';
 
 export default {
   title: 'Spinner',
@@ -29,3 +30,9 @@ export const Inline = () => (
     <Spinner inline />
   </div>
 );
+
+storiesOf('Spinner', module)
+  .add('Default', () => <Default />)
+  .add('Inverse', () => <Inverse />)
+  .add('InForm', () => <InForm />)
+  .add('Inline', () => <Inline />);

@@ -4,8 +4,6 @@ import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { linkTo } from '@storybook/addon-links';
 import { Button, Welcome } from '@storybook/react/demo';
-import Example from '../components/Example';
-import CardTest from '../components/card/CardTest';
 
 storiesOf('Welcome', module).add('to Storybook', () => (
   <Welcome showApp={linkTo('Button')} />
@@ -22,13 +20,3 @@ storiesOf('Button', module)
       </span>
     </Button>
   ));
-
-// storiesOf('CardTest', module).add('card test', (): any => ({
-//   title: 'Avatar',
-//   component: CardTest,
-//   args: {
-//     name: 'user',
-//   },
-// }));
-
-// storiesOf('Example', module).add('todo', () => <Example />);

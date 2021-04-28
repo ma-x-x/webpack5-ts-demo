@@ -1,7 +1,7 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
-import { rotate360 } from '@/styles/animation';
 import { color } from '@/styles/styles';
+import { rotate360 } from '@/styles/animation';
 
 const SpinnerWrapper = styled.div`
   border-radius: 3em;

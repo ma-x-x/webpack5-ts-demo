@@ -11,13 +11,14 @@
     "lint:stylelint": "stylelint --fix --config .stylelintrc.js src/**/*.{less,css,scss}",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
     "analyzers": "webpack-bundle-analyzer --port 7788 ./dist/stats.json",
-    "storybook": "start-storybook -p 9009 -s public",
-    "build-storybook": "build-storybook -s public"
+    "storybook": "start-storybook -p 9009 -s .storybook/static",
+    "build-storybook": "build-storybook -s .storybook/static"
   },
   "dependencies": {
     "antd": "^4.15.2",
     "lodash": "^4.17.21",
     "polished": "^4.1.2",
+    "prop-types": "^15.7.2",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "styled-components": "^5.2.3"
