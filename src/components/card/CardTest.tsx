@@ -1,5 +1,6 @@
 import React, { useState, FC } from 'react';
 import { Card, Col, Button } from 'antd';
+import './index.css';
 
 export interface Props {
   name: string;
@@ -9,10 +10,15 @@ const DefaultProps: Props = {
   name: '测试卡片',
 };
 
+type CardObj = {
+  key: number;
+  type: string;
+  title: string;
+  desc: string;
+};
+
 const CardTest: FC<Props> = ({ name }: Props = DefaultProps) => {
-  const [cardList, setCardList] = useState([
-    { key: Math.random(), type: 'addBtn', title: '添加', desc: '' },
-  ]);
+  const [cardList, setCardList] = useState<Array<CardObj>>([]);
 
   /** 增加卡片 */
   const handleAddCard = (): void => {
@@ -36,22 +42,25 @@ const CardTest: FC<Props> = ({ name }: Props = DefaultProps) => {
 
   console.log(111, cardList);
   return (
-    <div className="site-card-wrapper">
+    <>
       <div>{name}</div>
-      {cardList.map((item) => (
-        <Col span={8} key={item.key}>
-          <Card title="Card title" bordered={false}>
-            Card content
-          </Card>
-          {item.type !== 'addBtn' && (
-            <Button onClick={() => handleDeleteCard(item.key)}>Delete</Button>
-          )}
-        </Col>
-      ))}
-      <div>
+      <Card bordered={false}>
         <Button onClick={handleAddCard}>Add</Button>
+      </Card>
+      <div className="site-card-wrapper">
+        {cardList.map((item) => (
+          <div key={item.key} className="card-item-wrapper">
+            <Col span={8}>
+              <Card title="Card title" bordered={false}>
+                Card content
+              </Card>
+              <Button onClick={() => handleDeleteCard(item.key)}>Delete</Button>
+            </Col>
+          </div>
+        ))}
+        <div />
       </div>
-    </div>
+    </>
   );
 };
 

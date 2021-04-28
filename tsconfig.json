@@ -4,7 +4,8 @@
     "lib": ["dom", "dom.iterable", "esnext"],
     "baseUrl": "./",
     "paths": {
-      "@/*": ["./src/*"],
+      "@/*": ["src/*"],
+      // "@/*": ["./src/*"],
       // 在这里指定webpack使用的包
       "webpack": ["node_modules/webpack", "node_modules/@types/webpack"]
     },

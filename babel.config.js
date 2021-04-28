@@ -31,6 +31,7 @@ module.exports = {
         useESModules: true,
       },
     ],
+    ['@babel/plugin-proposal-optional-chaining'], // 解析 可选链式语法
   ],
   env: {
     development: {

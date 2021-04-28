@@ -23,6 +23,12 @@ storiesOf('Button', module)
     </Button>
   ));
 
-storiesOf('CardTest', module).add('card test', () => <CardTest name="Test" />);
+// storiesOf('CardTest', module).add('card test', (): any => ({
+//   title: 'Avatar',
+//   component: CardTest,
+//   args: {
+//     name: 'user',
+//   },
+// }));
 
-storiesOf('Example', module).add('todo', () => <Example />);
+// storiesOf('Example', module).add('todo', () => <Example />);
