@@ -4,6 +4,7 @@ import CopyWebpackPlugin from 'copy-webpack-plugin';
 import StylelintPlugin from 'stylelint-webpack-plugin';
 import EslintPlugin from 'eslint-webpack-plugin';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
+import ForkTsCheckerNotifierWebpackPlugin from 'fork-ts-checker-notifier-webpack-plugin';
 import WebpackBar from 'webpackbar';
 import { resolve, getCssLoaders } from '../util';
 import { isDev, projectName } from '../config';
@@ -52,8 +53,16 @@ const commonConfig: Configuration = {
         test: /\.(t|j)sx?$/,
         use: [
           {
+            loader: 'thread-loader',
+            options: {
+              workers: 2, // 进程数量 2个
+            },
+          },
+          {
             loader: 'babel-loader',
             options: {
+              // 关闭类型检查。开启类型检查，请使用 ForkTsCheckerWebpackPlugin。
+              // 使用此插件会将检查过程移至单独的进程，可以加快 TypeScript 的类型检查和 ESLint 插入的速度
               cacheDirectory: true,
             },
           },
@@ -120,6 +129,7 @@ const commonConfig: Configuration = {
       extensions: ['ts', 'tsx', 'js', 'jsx'],
     }),
     new ForkTsCheckerWebpackPlugin(),
+    new ForkTsCheckerNotifierWebpackPlugin({ excludeWarnings: true }),
     new CopyWebpackPlugin({
       patterns: [
         {
