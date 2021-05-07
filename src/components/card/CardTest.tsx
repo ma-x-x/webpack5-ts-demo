@@ -1,5 +1,5 @@
 import React, { useState, FC } from 'react';
-import { Card, Col, Button } from 'antd';
+import { Card, Button } from 'antd';
 import './index.css';
 
 export interface Props {
@@ -10,27 +10,23 @@ const DefaultProps: Props = {
   name: '测试卡片',
 };
 
-type CardObj = {
+export type CardObj = {
   key: number;
-  type: string;
   title: string;
   desc: string;
 };
 
 const CardTest: FC<Props> = ({ name }: Props = DefaultProps) => {
-  const [cardList, setCardList] = useState<Array<CardObj>>([]);
+  const [cardList, setCardList] = useState<CardObj[]>([]);
 
   /** 增加卡片 */
   const handleAddCard = (): void => {
-    const newCardList = [
-      ...cardList,
-      {
-        key: Math.random(),
-        type: 'card',
-        title: `文本${cardList.length}`,
-        desc: `文本描述${cardList.length}`,
-      },
-    ];
+    const newCard = {
+      key: Math.random(),
+      title: `名称${cardList.length}`,
+      desc: `描述${cardList.length}`,
+    };
+    const newCardList = [...cardList, newCard];
     setCardList(newCardList);
   };
 
@@ -40,7 +36,6 @@ const CardTest: FC<Props> = ({ name }: Props = DefaultProps) => {
     setCardList(newCardList);
   };
 
-  console.log(111, cardList);
   return (
     <>
       <div>{name}</div>
@@ -50,12 +45,15 @@ const CardTest: FC<Props> = ({ name }: Props = DefaultProps) => {
       <div className="site-card-wrapper">
         {cardList.map((item) => (
           <div key={item.key} className="card-item-wrapper">
-            <Col span={8}>
-              <Card title="Card title" bordered={false}>
-                Card content
-              </Card>
-              <Button onClick={() => handleDeleteCard(item.key)}>Delete</Button>
-            </Col>
+            <Card title="Card title" bordered={false}>
+              Card content
+            </Card>
+            <Button
+              onClick={() => handleDeleteCard(item.key)}
+              className="delete-btn"
+            >
+              Delete
+            </Button>
           </div>
         ))}
         <div />
@@ -63,5 +61,4 @@ const CardTest: FC<Props> = ({ name }: Props = DefaultProps) => {
     </>
   );
 };
-
 export default CardTest;
