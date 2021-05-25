@@ -52,7 +52,10 @@
     "source.fixAll.eslint": true,
     "source.fixAll.stylelint": true
   },
-  "files.eol": "\n"
+  "files.eol": "\n",
+  "cSpell.words": [
+    "Sider"
+  ]
   // "typescript.showUnused": false,
   // "javascript.showUnused": false
 }

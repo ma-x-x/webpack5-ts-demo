@@ -1,15 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter } from 'react-router-dom';
-import App from './App';
-import './loadGlobalLib';
-import './index.css';
+import { RecoilRoot } from 'recoil';
+import Page from './Page';
 
 ReactDOM.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+    <RecoilRoot>
+      <Page />
+    </RecoilRoot>
   </React.StrictMode>,
   document.querySelector('#root')
 );

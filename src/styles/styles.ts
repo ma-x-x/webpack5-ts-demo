@@ -1,4 +1,4 @@
-import { css } from 'styled-components';
+import styled, { css } from 'styled-components';
 import { rgba } from 'polished';
 
 // Global style variables
@@ -118,3 +118,5 @@ export const hoverEffect = css`
     transform: translate3d(0, 0, 0);
   }
 `;
+
+export const Wrapper = styled.div``;

@@ -1,5 +1,7 @@
 import React, { useState, FC } from 'react';
 import { Card, Button } from 'antd';
+import { Wrapper } from '@/styles/styles';
+import BreadcrumbCustom from '../widget/BreadcrumbCustom';
 import './index.css';
 
 export interface Props {
@@ -37,7 +39,8 @@ const CardTest: FC<Props> = ({ name }: Props = DefaultProps) => {
   };
 
   return (
-    <>
+    <Wrapper>
+      <BreadcrumbCustom breads={['测试管理', '卡片演示']} />
       <div>{name}</div>
       <Card bordered={false}>
         <Button onClick={handleAddCard}>Add</Button>
@@ -58,7 +61,7 @@ const CardTest: FC<Props> = ({ name }: Props = DefaultProps) => {
         ))}
         <div />
       </div>
-    </>
+    </Wrapper>
   );
 };
 export default CardTest;

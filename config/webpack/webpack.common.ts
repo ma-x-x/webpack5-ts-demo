@@ -1,5 +1,5 @@
 import HtmlWebpackPlugin from 'html-webpack-plugin';
-import { Configuration } from 'webpack';
+import webpack, { Configuration } from 'webpack';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import StylelintPlugin from 'stylelint-webpack-plugin';
 import EslintPlugin from 'eslint-webpack-plugin';
@@ -110,6 +110,9 @@ const commonConfig: Configuration = {
     ],
   },
   plugins: [
+    new webpack.ProvidePlugin({
+      _: 'lodash',
+    }),
     new HtmlWebpackPlugin({
       template: paths.appHtml,
       filename: 'index.html',

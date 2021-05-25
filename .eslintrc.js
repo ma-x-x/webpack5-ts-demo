@@ -25,7 +25,7 @@ module.exports = {
     ecmaVersion: 11,
     sourceType: 'module',
   },
-  plugins: ['react', 'unicorn', 'promise', '@typescript-eslint'],
+  plugins: ['react', 'react-hooks', 'unicorn', 'promise', '@typescript-eslint'],
   settings: {
     'import/resolver': {
       node: {
@@ -78,6 +78,9 @@ module.exports = {
     'unicorn/prefer-query-selector': ERROR,
     'unicorn/no-null': OFF,
     'unicorn/no-array-reduce': OFF,
+    'unicorn/consistent-function-scoping': OFF,
+    'unicorn/no-array-callback-reference': OFF,
+    'no-underscore-dangle': OFF,
 
     '@typescript-eslint/no-useless-constructor': ERROR,
     '@typescript-eslint/no-empty-function': WARN,
@@ -86,7 +89,8 @@ module.exports = {
     '@typescript-eslint/explicit-module-boundary-types': OFF,
     '@typescript-eslint/no-explicit-any': OFF,
     '@typescript-eslint/no-unused-vars': WARN,
-    '@typescript-eslint/no-shadow': ERROR,
+    '@typescript-eslint/no-non-null-assertion': OFF,
+    // '@typescript-eslint/no-shadow': ERROR,
 
     'react/jsx-filename-extension': [
       ERROR,
@@ -99,23 +103,35 @@ module.exports = {
     'react/state-in-constructor': OFF,
     'react/jsx-props-no-spreading': OFF,
     'react/prop-types': OFF,
+    'react/display-name': OFF,
+    'react/require-default-props': OFF,
+    'react/no-array-index-key': OFF,
+    'react/no-unused-prop-types': WARN,
 
     'jsx-a11y/click-events-have-key-events': OFF,
     'jsx-a11y/no-noninteractive-element-interactions': OFF,
+    'jsx-a11y/no-static-element-interactions': OFF,
 
     'lines-between-class-members': [ERROR, 'always'],
     // indent: [ERROR, 2, { SwitchCase: 1 }],
     'linebreak-style': [ERROR, 'unix'],
     quotes: [ERROR, 'single'],
-    'no-unused-expressions': WARN,
+    'no-unused-expressions': OFF,
     'no-plusplus': OFF,
     'no-console': OFF,
     'no-continue': OFF,
+    'no-param-reassign': OFF,
+    'no-debugger': WARN,
     'class-methods-use-this': OFF,
     'global-require': OFF,
     'no-use-before-define': OFF,
-    'promise/always-return': OFF,
     'no-restricted-syntax': OFF,
+    'promise/always-return': OFF,
+    'promise/catch-or-return': OFF,
+    'promise/no-nesting': OFF,
+    'prefer-promise-reject-errors': OFF,
+    'prefer-const': OFF,
+    'react/no-children-prop': OFF,
   },
   overrides: [
     {

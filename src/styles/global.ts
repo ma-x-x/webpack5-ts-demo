@@ -116,6 +116,19 @@ export const GlobalStyle = createGlobalStyle`
   body {
     ${bodyStyles}
   }
+  #root{
+    height:100%;
+    display:flex;
+  }
+  .app_layout_container{
+    flex-grow:1;
+  }
+  .app_layout_content{
+    margin: 0 16px;
+    overflow: initial;
+    flex: 1 1;
+    min-height: auto;
+  }
   // prevent mouse-clicks from focusing elements
   // this removes the ugly blue outline
   :focus:not(:focus-visible) {
