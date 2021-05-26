@@ -1,11 +1,12 @@
 import express, { Router } from 'express';
 import webpack, { Compiler, Stats } from 'webpack';
 import { createProxyMiddleware, Options } from 'http-proxy-middleware';
+import cors from 'cors';
 import chalk from 'chalk';
 import open from 'open';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
-import cors from 'cors';
+import history from 'connect-history-api-fallback';
 import { getRandomPort, loadMockRoutes } from '../util';
 import { devPort, isOpenBrowser, mock } from '../config';
 import proxySetting from './proxy';
@@ -102,20 +103,29 @@ class Application {
     // 开发 chrome 扩展的时候可能需要开启跨域，参考：https://juejin.cn/post/6844904049276354567
     this.app.use(cors());
 
-    // 告知 express 使用 webpack-dev-middleware，
+    // 刷新后不至于页面丢失
+    // Fall back to /index.html if nothing else matches.
+    this.app.use(history());
+    this.app.use(express.static(__dirname));
+
     // 以及将 webpack.config.js 配置文件作为基础配置。
     this.app.use(
       webpackDevMiddleware(this.compiler, {
         // 只在发生错误或有新的编译时输出
         stats: 'errors-warnings',
+        publicPath: '',
       })
     );
+
+    // 热更新
     this.app.use(
       webpackHotMiddleware(this.compiler, {
         path: '/__webpack_hmr',
         log: false,
       })
     );
+
+    // mock
     if (mock) {
       this.initMock();
     }

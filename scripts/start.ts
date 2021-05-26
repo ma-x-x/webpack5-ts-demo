@@ -6,7 +6,7 @@ import Application, {
 
 const app = new Application();
 
-app.initWebpackDevServer((port:number) =>
+app.initWebpackDevServer((port: number) =>
   merge(devConfig, {
     plugins: [FriendlyErrorsWebpackPluginGenerator(port)],
   })
