@@ -88,6 +88,6 @@ export default {
   appNodeModules: resolveApp('node_modules'),
   publicUrl: getPublicUrl(resolveApp('package.json')),
   servedPath: getServedPath(resolveApp('package.json')),
-  developmentEnv: resolveApp('.env.production.local'),
-  productionEnv: resolveApp('.env.development.local'),
+  developmentEnv: resolveApp('.env.development.local'),
+  productionEnv: resolveApp('.env.production.local'),
 };
