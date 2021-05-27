@@ -2,7 +2,7 @@
 
 ## 功能描述
 
-[地址](https://ma-x-x.github.io/webpack5-ts-demo/#/app/home){:target="\_blank"}
+[地址](https://ma-x-x.github.io/webpack5-ts-demo/#/app/home)
 
 ## 技术栈
 
@@ -21,7 +21,7 @@
 
 ## 项目运行效果
 
-[地址](https://ma-x-x.github.io/webpack5-ts-demo/#/app/home){:target="\_blank"}
+[地址](https://ma-x-x.github.io/webpack5-ts-demo/#/app/home)
 
 ## 项目介绍
 
