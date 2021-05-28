@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { Button, Form, Input } from 'antd';
 import { RouteComponentProps } from 'react-router';
 import { FormProps } from 'antd/lib/form';
-import { GithubOutlined, LockOutlined, UserOutlined } from '@ant-design/icons';
+import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { useUpdateEffect } from 'ahooks';
+import { LoginWrapper } from './styled';
 
 const FormItem = Form.Item;
 
@@ -47,16 +48,12 @@ const Login = (props: LoginProps) => {
       (user) => user[0] === values.userName && user[1] === values.password
     );
   };
-  const gitHub = () => {
-    window.location.href =
-      'https://github.com/login/oauth/authorize?client_id=792cdcd244e98dcd2dee&redirect_uri=http://localhost:3006/&scope=user&state=reactAdmin';
-  };
 
   return (
-    <div className="login">
+    <LoginWrapper>
       <div className="login-form">
         <div className="login-logo">
-          <span>React Admin</span>
+          <span>欢迎登录</span>
         </div>
         <Form onFinish={handleSubmit} style={{ maxWidth: '300px' }}>
           <FormItem
@@ -65,7 +62,7 @@ const Login = (props: LoginProps) => {
           >
             <Input
               prefix={<UserOutlined size={13} />}
-              placeholder="管理员输入admin, 游客输入guest"
+              placeholder="请输入用户名"
             />
           </FormItem>
           <FormItem
@@ -75,13 +72,10 @@ const Login = (props: LoginProps) => {
             <Input
               prefix={<LockOutlined size={13} />}
               type="password"
-              placeholder="管理员输入admin, 游客输入guest"
+              placeholder="请输入密码"
             />
           </FormItem>
           <FormItem>
-            <span className="login-form-forgot" style={{ float: 'right' }}>
-              忘记密码
-            </span>
             <Button
               type="primary"
               htmlType="submit"
@@ -90,17 +84,10 @@ const Login = (props: LoginProps) => {
             >
               登录
             </Button>
-            <p style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <span>或 现在就去注册!</span>
-              <span onClick={gitHub}>
-                <GithubOutlined />
-                (第三方登录)
-              </span>
-            </p>
           </FormItem>
         </Form>
       </div>
-    </div>
+    </LoginWrapper>
   );
 };
 
