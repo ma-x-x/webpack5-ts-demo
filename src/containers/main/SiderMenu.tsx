@@ -13,6 +13,7 @@ const Wrapper = styled.div`
   bottom: 0px;
   overflow-y: auto;
   overflow-x: hidden;
+  background: #fff;
   &::-webkit-scrollbar {
     width: 3px;
   }
