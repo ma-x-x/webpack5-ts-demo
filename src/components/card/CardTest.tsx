@@ -1,8 +1,12 @@
 import React, { useState, FC } from 'react';
 import { Card, Button } from 'antd';
+import styled from 'styled-components';
 import { Wrapper } from '@/styles/styles';
-import BreadcrumbCustom from '../widget/BreadcrumbCustom';
 import './index.css';
+
+const CustomWrapper = styled(Wrapper)`
+  flex-direction: column;
+`;
 
 export interface Props {
   name: string;
@@ -39,8 +43,7 @@ const CardTest: FC<Props> = ({ name }: Props = DefaultProps) => {
   };
 
   return (
-    <Wrapper>
-      <BreadcrumbCustom breads={['测试管理', '卡片演示']} />
+    <CustomWrapper>
       <div>{name}</div>
       <Card bordered={false}>
         <Button onClick={handleAddCard}>Add</Button>
@@ -61,7 +64,7 @@ const CardTest: FC<Props> = ({ name }: Props = DefaultProps) => {
         ))}
         <div />
       </div>
-    </Wrapper>
+    </CustomWrapper>
   );
 };
 export default CardTest;

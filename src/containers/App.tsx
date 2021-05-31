@@ -2,20 +2,16 @@ import React, { useState } from 'react';
 import { Layout } from 'antd';
 import SiderCustom from '@/containers/main/SiderCustom';
 import HeaderCustom from '@/containers/main/HeaderCustom';
-import { Copyright } from '@/components/widget';
+import { Copyright, BreadcrumbCustom } from '@/components/widget';
 import Routes from '@/routes';
 import { checkLogin } from '@/utils';
+import { AppWrapper } from './styled';
 
 // const CardTest = React.lazy(() => import('@/components/card/CardTest')); // Lazy-loaded
 
 const { Content, Footer } = Layout;
 
 function App() {
-  const [collapsed, setCollapsed] = useState<boolean>(false);
-
-  function toggle() {
-    setCollapsed(!collapsed);
-  }
   const auth = {
     permissions: [
       '/app/home',
@@ -26,21 +22,22 @@ function App() {
     ],
   };
   return (
-    <>
+    <AppWrapper>
       <Layout className="app_layout_container">
-        {checkLogin(auth.permissions) && <SiderCustom collapsed={collapsed} />}
+        <HeaderCustom user={auth || {}} />
         <Layout className="app_layout">
-          <HeaderCustom
-            toggle={toggle}
-            collapsed={collapsed}
-            user={auth || {}}
-          />
-          <Content className="app_layout_content">
-            <Routes auth={auth} />
-          </Content>
-          <Footer className="app_layout_foot">
-            <Copyright />
-          </Footer>
+          {checkLogin(auth.permissions) && <SiderCustom />}
+          <Layout>
+            <Content className="app_layout_content">
+              <BreadcrumbCustom breads={['测试管理', '卡片演示']} />
+              <div className="app-main__wrapper">
+                <Routes auth={auth} />
+              </div>
+            </Content>
+            <Footer className="app_layout_foot">
+              <Copyright />
+            </Footer>
+          </Layout>
         </Layout>
       </Layout>
       {/* <div className="App">
@@ -48,7 +45,7 @@ function App() {
           <CardTest name="test" />
         </Suspense>
       </div> */}
-    </>
+    </AppWrapper>
   );
 }
 

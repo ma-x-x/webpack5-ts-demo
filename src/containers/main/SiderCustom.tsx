@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Layout } from 'antd';
+import { Layout, Affix } from 'antd';
 import styled from 'styled-components';
+import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { usePrevious } from 'ahooks';
 import routes from '@/routes/config';
@@ -9,31 +10,29 @@ import SiderMenu from './SiderMenu';
 
 const { Sider } = Layout;
 
-interface WrapperProps {
-  readonly collapsed: boolean;
-}
-
-const Wrapper = styled.div<WrapperProps>`
-  #nprogress .spinner {
-    left: ${(props: { collapsed: boolean }) =>
-      props.collapsed ? '70px' : '206px'};
-    right: 0 !important;
+const Wrapper = styled.div`
+  background: #fff;
+  box-shadow: 2px 0 3px -1px #cfcfcf;
+  margin-right: 4px;
+  position: relative;
+  overflow: hidden;
+  zoom: 1;
+  display: flex;
+  flex-shrink: 0;
+  .left-wrapper {
+    background: #fff;
   }
-  .logo {
-    height: 32px;
-    background: #ffffff;
-    border-radius: 6px;
-    margin: 16px;
-  }
-  .header__trigger {
-    color: #ffffff;
+  .collapsed__wrapper {
+    background: rgb(244, 244, 244);
+    height: 30px;
+    text-align: center;
+    padding-top: 6px;
+    cursor: pointer;
   }
 `;
 
 type SiderCustomProps = RouteComponentProps<any> & {
   popoverHide?: () => void;
-  collapsed?: boolean;
-  smenus?: any;
 };
 interface IMenu {
   openKeys: string[];
@@ -41,11 +40,16 @@ interface IMenu {
 }
 
 const SiderCustom = (props: SiderCustomProps) => {
-  const [collapsed, tCollapsed] = useSwitch();
   const [firstHide, tFirstHide] = useSwitch();
   const [menu, setMenu] = useState<IMenu>({ openKeys: [''], selectedKey: '' });
+  const [collapsed, setCollapsed] = useState<boolean>(false);
+
+  function toggle() {
+    setCollapsed(!collapsed);
+  }
+
   // 异步菜单
-  const { location, collapsed: pCollapsed } = props;
+  const { location } = props;
   const prePathname = usePrevious(location.pathname);
 
   useEffect(() => {
@@ -66,23 +70,10 @@ const SiderCustom = (props: SiderCustomProps) => {
       selectedKey: location.pathname,
     });
 
-    if (pCollapsed !== collapsed) {
-      setMenu(getOpenAndSelectKeys());
-      tCollapsed.setSwitcher(!!pCollapsed);
-      tFirstHide.setSwitcher(!!pCollapsed);
-    }
-
     if (prePathname !== location.pathname) {
       setMenu(getOpenAndSelectKeys());
     }
-  }, [
-    prePathname,
-    location.pathname,
-    collapsed,
-    tFirstHide,
-    tCollapsed,
-    pCollapsed,
-  ]);
+  }, [prePathname, location.pathname, tFirstHide]);
 
   const menuClick = (e: any) => {
     setMenu((state) => ({ ...state, selectedKey: e.key }));
@@ -95,7 +86,7 @@ const SiderCustom = (props: SiderCustomProps) => {
   };
 
   return (
-    <Wrapper collapsed={collapsed}>
+    <Wrapper>
       <Sider
         trigger={null}
         breakpoint="lg"
@@ -104,15 +95,23 @@ const SiderCustom = (props: SiderCustomProps) => {
         style={{ overflowY: 'auto' }}
         className="sider-custom"
       >
-        <div className="logo" />
-        <SiderMenu
-          menus={[...routes.menus]}
-          onClick={menuClick}
-          mode="inline"
-          selectedKeys={[menu.selectedKey]}
-          openKeys={firstHide ? [] : menu.openKeys}
-          onOpenChange={openMenu}
-        />
+        <Affix offsetTop={0}>
+          <div onClick={toggle} className="collapsed__wrapper">
+            {collapsed ? (
+              <MenuUnfoldOutlined className="header__trigger custom-trigger" />
+            ) : (
+              <MenuFoldOutlined className="header__trigger custom-trigger" />
+            )}
+          </div>
+          <SiderMenu
+            menus={[...routes.menus]}
+            onClick={menuClick}
+            mode="inline"
+            selectedKeys={[menu.selectedKey]}
+            openKeys={firstHide ? [] : menu.openKeys}
+            onOpenChange={openMenu}
+          />
+        </Affix>
       </Sider>
     </Wrapper>
   );

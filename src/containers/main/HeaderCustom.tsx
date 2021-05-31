@@ -1,16 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import { Menu, Layout, Badge } from 'antd';
 import { useHistory } from 'react-router-dom';
-import {
-  MenuFoldOutlined,
-  MenuUnfoldOutlined,
-  NotificationOutlined,
-} from '@ant-design/icons';
+import { NotificationOutlined } from '@ant-design/icons';
 import { parseQuery } from '@/utils';
 import { gitOauthToken, gitOauthInfo } from '@/services/authService';
 import styled from 'styled-components';
 
 const Wrapper = styled.div`
+  header {
+    padding: 0 50px 0 16px;
+  }
+  .logo {
+    float: left;
+    width: 120px;
+    height: 31px;
+    margin: 16px 24px 16px 0;
+    background: rgba(255, 255, 255, 0.3);
+  }
   .header__trigger {
     color: #ffffff;
   }
@@ -35,9 +41,7 @@ const { Header } = Layout;
 const { SubMenu } = Menu;
 
 type HeaderCustomProps = {
-  toggle: () => void;
-  collapsed: boolean;
-  user: any;
+  user?: any;
 };
 
 const HeaderCustom = (props: HeaderCustomProps) => {
@@ -74,17 +78,7 @@ const HeaderCustom = (props: HeaderCustomProps) => {
   return (
     <Wrapper>
       <Header className="custom-theme header">
-        {props.collapsed ? (
-          <MenuUnfoldOutlined
-            className="header__trigger custom-trigger"
-            onClick={props.toggle}
-          />
-        ) : (
-          <MenuFoldOutlined
-            className="header__trigger custom-trigger"
-            onClick={props.toggle}
-          />
-        )}
+        <div className="logo" />
         <Menu
           mode="horizontal"
           style={{ lineHeight: '64px', float: 'right' }}
@@ -96,20 +90,21 @@ const HeaderCustom = (props: HeaderCustomProps) => {
             </Badge>
           </Menu.Item>
           <SubMenu
+            key="header-nav"
             title={
               <span className="avatar">
                 <i className="on bottom b-white" />
               </span>
             }
           >
-            <Menu.ItemGroup title="用户中心">
+            <Menu.ItemGroup title="用户中心" key="user-info">
               <Menu.Item key="setting:1">你好 - {user?.userName}</Menu.Item>
               <Menu.Item key="setting:2">个人信息</Menu.Item>
               <Menu.Item key="logout">
                 <span onClick={logout}>退出登录</span>
               </Menu.Item>
             </Menu.ItemGroup>
-            <Menu.ItemGroup title="设置中心">
+            <Menu.ItemGroup title="设置中心" key="user-setting">
               <Menu.Item key="setting:3">个人设置</Menu.Item>
               <Menu.Item key="setting:4">系统设置</Menu.Item>
             </Menu.ItemGroup>

@@ -116,9 +116,17 @@ export const GlobalStyle = createGlobalStyle`
   body {
     ${bodyStyles}
   }
+  body,html {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    height:auto;
+    min-height:100%;
+  }
   #root{
-    height:100%;
+    min-height:100%;
     display:flex;
+    flex-grow: 1;
   }
   .app_layout_container{
     flex-grow:1;
@@ -134,4 +142,27 @@ export const GlobalStyle = createGlobalStyle`
   :focus:not(:focus-visible) {
     outline: none;
   }
+
+  /* 设置滚动条的样式 */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+  background-color: #F5F5F5;
+}
+/* 外层轨道 */
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.1);
+  border-radius: 6px;
+  background-color: #F5F5F5;
+}
+/* 滚动条滑块 */
+::-webkit-scrollbar-thumb {
+  border-radius: 3px;
+  height: 12px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+  background-color: #555;
+}
+::-webkit-scrollbar-thumb:window-inactive {
+  background-color: #555;
+}
 `;

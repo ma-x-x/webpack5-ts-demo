@@ -57,8 +57,7 @@ export const spacing = {
 export const typography = {
   type: {
     primary: '"Nunito Sans", "Helvetica Neue", Helvetica, Arial, sans-serif',
-    code:
-      '"SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace',
+    code: '"SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace',
   },
   weight: {
     regular: '400',
@@ -119,4 +118,7 @@ export const hoverEffect = css`
   }
 `;
 
-export const Wrapper = styled.div``;
+export const Wrapper = styled.div`
+  display: flex;
+  flex-grow: 1;
+`;
