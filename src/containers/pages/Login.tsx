@@ -1,53 +1,31 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import { useRecoilState } from 'recoil';
 import { Button, Form, Input } from 'antd';
-import { RouteComponentProps } from 'react-router';
-import { FormProps } from 'antd/lib/form';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
-import { useUpdateEffect } from 'ahooks';
+import { tokenState } from '@/store/atoms/userAtom';
+import { login, loginType } from '@/services/authService';
+import { Redirect } from 'react-router-dom';
 import { LoginWrapper } from './styled';
 
 const FormItem = Form.Item;
 
-type LoginProps = {
-  auth?: any;
-} & RouteComponentProps &
-  FormProps;
+const Login = () => {
+  const [token, setToken] = useRecoilState(tokenState);
 
-type authType = {
-  uid?: string;
-  funcName?: string;
-};
+  const handleLogin = async (values: loginType) => {
+    const response = await login(values);
+    const { access_token } = response.data;
+    localStorage.setItem('ai-token', access_token);
+    setToken(access_token);
+  }; 
 
-const Login = (props: LoginProps) => {
-  const { history } = props;
-  const [auth, setAuth] = useState<authType>();
-
-  useEffect(() => {
-    setAuth({ uid: '' });
-  }, [setAuth]);
-
-  useUpdateEffect(() => {
-    if (auth && auth.uid) {
-      // 判断是否登陆
-      localStorage.setItem('user', JSON.stringify(auth));
-      history.push('/');
-    }
-  }, [history, auth]);
-
-  const handleSubmit = (values: any) => {
-    if (checkUser(values)) {
-      setAuth({ funcName: values.userName });
-    }
+  const handleSubmit = (values: loginType) => {
+    handleLogin(values);
   };
-  const checkUser = (values: any) => {
-    const users = [
-      ['admin', 'admin'],
-      ['guest', 'guest'],
-    ];
-    return users.some(
-      (user) => user[0] === values.userName && user[1] === values.password
-    );
-  };
+
+  if (token === 'success token') {
+    return <Redirect to="/app/home" />;
+  }
 
   return (
     <LoginWrapper>

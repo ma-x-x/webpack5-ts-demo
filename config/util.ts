@@ -11,6 +11,7 @@ function resolve(relativePath: string) {
   return path.resolve(__dirname, relativePath);
 }
 const getCssLoaders = (importLoaders: number): RuleSetUseItem[] => [
+  'cache-loader',
   isDev ? 'style-loader' : MiniCssExtractPlugin.loader,
   {
     loader: 'css-loader',

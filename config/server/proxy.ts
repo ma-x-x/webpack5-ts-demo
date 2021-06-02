@@ -7,7 +7,7 @@ const proxySetting: Record<string, Options> = {
     target: `http://localhost:${devPort}`,
     changeOrigin: true,
     pathRewrite: {
-      '^/api': '',
+      '^/api': '/',
     },
   },
 };

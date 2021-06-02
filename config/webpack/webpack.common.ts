@@ -13,7 +13,7 @@ import paths from '../paths';
 const commonConfig: Configuration = {
   target: 'web',
   entry: {
-    main: [isDev ? resolve('./dev-helper.ts') : paths.appIndexJs],
+    main: [paths.appIndexJs],
   },
   optimization: {
     splitChunks: {
@@ -155,7 +155,7 @@ const commonConfig: Configuration = {
   output: {
     path: paths.appDist,
     filename: `js/[name]${isDev ? '' : '.[fullhash:8]'}.js`,
-    publicPath: isDev ? '/' : '.',
+    publicPath: '/',
     clean: true, // 构建之前清理
   },
 };

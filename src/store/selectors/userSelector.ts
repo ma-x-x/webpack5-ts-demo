@@ -1,18 +1,27 @@
 import { selector } from 'recoil';
-import { username, User } from '../atoms/userAtom';
+import { getLoginUserInfo } from '@/services/authService';
+import { tokenState, userState, User } from '../atoms/userAtom';
+
+export const getAuthToken = selector({
+  key: 'getAuthToken',
+  get: ({ get }) => {
+    const token = get(tokenState);
+    return token;
+  },
+});
 
 // 异步获取数据。
-export const githubUser = selector({
-  key: 'githubUser',
+export const getUserInfo = selector({
+  key: 'getUserInfo',
   get: async ({ get }) => {
-    const ghUsername = get(username);
+    const userInfo = get(userState);
 
-    if (!ghUsername) {
-      return null;
+    if (userInfo) {
+      return userInfo;
     }
 
-    const response = await fetch(`https://api.github.com/users/${ghUsername}`);
-    const user: User = await response.json();
+    const response = await getLoginUserInfo();
+    const user: User = response.data;
 
     return user;
   },

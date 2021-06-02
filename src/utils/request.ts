@@ -13,7 +13,7 @@ NProgress.configure({
 // 创建axios实例
 const service = axios.create({
   // baseURL: process.env.BASE_API, // api的base_url
-  baseURL: '/',
+  baseURL: '/api',
   timeout: 15000, // 请求超时时间
 });
 
@@ -81,7 +81,6 @@ const handleLoginTimeout = (errorMsg = '登录超时') => {
     onOk: () => {
       clearInterval(timer);
       modal.destroy();
-      console.dir(111);
       window.location.reload();
     },
   });

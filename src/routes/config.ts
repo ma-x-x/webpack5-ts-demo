@@ -50,7 +50,11 @@ const menus: {
       title: '测试管理',
       icon: 'safety',
       subs: [
-        { key: '/app/test/card', title: '卡片演示', component: 'CardTest' },
+        {
+          key: '/app/test/card',
+          title: '卡片演示-Recoil',
+          component: 'CardRecoilTest',
+        },
       ],
     },
   ],

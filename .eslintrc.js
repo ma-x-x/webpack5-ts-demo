@@ -67,6 +67,7 @@ module.exports = {
         },
       },
     ],
+    camelcase: OFF,
     'unicorn/no-array-instanceof': WARN,
     'unicorn/no-for-loop': WARN, // 使用 for of 和 .entries 代替传统的 for 循环
     'unicorn/prefer-add-event-listener': [
@@ -121,7 +122,7 @@ module.exports = {
     'no-console': OFF,
     'no-continue': OFF,
     'no-param-reassign': OFF,
-    'no-debugger': WARN,
+    'no-debugger': OFF,
     'class-methods-use-this': OFF,
     'global-require': OFF,
     'no-use-before-define': OFF,

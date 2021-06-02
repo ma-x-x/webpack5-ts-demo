@@ -5,7 +5,6 @@ export const LoginWrapper = styled.div`
   flex-grow: 1;
   justify-content: center;
   align-items: center;
-  height: 100%;
   background: #f3f3f3;
   .login-form {
     width: 320px;

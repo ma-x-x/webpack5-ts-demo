@@ -1,5 +1,5 @@
 const isDev = process.env.NODE_ENV !== 'production';
-const projectName = 'webpack5 Typescript';
+const projectName = 'webpack5-ts-demo';
 const bannerDescription = '/** @preserve Powered by webpack5 Typescript */';
 const devPort = 5000;
 const isOpenBrowser = true;

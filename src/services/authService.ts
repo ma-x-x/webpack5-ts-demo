@@ -1,44 +1,31 @@
 import request from '@/utils/request';
-import qs from 'qs';
 
-const gitOauthToken = (code: string) =>
-  request({
-    url: `/oauth/token?code=${code}`,
-    method: 'get',
-  });
-
-const gitOauthInfo = (token: string) =>
-  request({
-    url: `/oauth/info?token=${token}`,
-    method: 'get',
-  });
-
-const loginBasicAuth = ({
-  userId,
-  password,
-}: {
-  userId: string;
+export type loginType = {
+  userName: string;
   password: string;
-}) =>
-  request({
+};
+
+const login = async (data: loginType) => {
+  const response = await request({
     url: '/oauth/token',
     method: 'post',
-    headers: {
-      Authorization: 'Basic Y2xpZW50X3Bvc3RtYW5fcHc6c2VjcmV0',
-      'Content-Type': 'application/x-www-form-urlencoded',
-    }, // 设置header文字信息
-    data: qs.stringify({
-      grant_type: 'password',
-      username: userId,
-      password,
-      scope: 'all',
-    }),
+    data,
   });
+  return response;
+};
 
-const logout = ({ token }: { token: string }) =>
+const getLoginUserInfo = async () => {
+  const data = await request({
+    url: '/oauth/info',
+    method: 'get',
+  });
+  return data;
+};
+
+const logout = () =>
   request({
-    url: `/aiSquare/openApi/uc/oauth/logout?token=${token}`,
+    url: '/user/logout',
     method: 'get',
   });
 
-export { gitOauthToken, gitOauthInfo, loginBasicAuth, logout };
+export { login, getLoginUserInfo, logout };

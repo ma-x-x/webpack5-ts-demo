@@ -7,7 +7,7 @@ const RouterEnter = () => (
   <div>
     <BreadcrumbCustom breads={['权限管理', '路由拦截']} />
     <AuthWidget
-      children={(auth: any) => (
+      children={() => (
         <Row>
           <Col span={24}>
             <Card bordered={false} bodyStyle={{ minHeight: 600 }}>

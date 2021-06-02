@@ -1,93 +1,19 @@
-import express, { Router } from 'express';
-import webpack, { Compiler, Stats } from 'webpack';
-import { createProxyMiddleware, Options } from 'http-proxy-middleware';
-import cors from 'cors';
+import webpack, { Compiler } from 'webpack';
 import chalk from 'chalk';
-import open from 'open';
-import webpackDevMiddleware from 'webpack-dev-middleware';
-import webpackHotMiddleware from 'webpack-hot-middleware';
-import history from 'connect-history-api-fallback';
-import { getRandomPort, loadMockRoutes } from '../util';
+import WebpackDevServer from 'webpack-dev-server';
+// import morgan from 'morgan';
+import { getRandomPort } from '../util';
 import { devPort, isOpenBrowser, mock } from '../config';
 import proxySetting from './proxy';
 import paths from '../paths';
+import mockServer from '../../mock';
 
 class Application {
-  private app = express();
-
-  private hadBrowserOpened = false;
-
   private compiler!: Compiler;
 
   private getServerPort(defaultPort: number) {
     // 将文件 serve 到 port 3000。
     return getRandomPort(defaultPort);
-  }
-
-  private listen(port: number) {
-    this.app.listen(port, () => {
-      console.log(
-        `- your application is working on：${chalk.cyan.underline(
-          `http://localhost:${port}`
-        )}`
-      );
-    });
-  }
-
-  private openBrowser(address: string) {
-    // 编译完成时执行
-    this.compiler.hooks.done.tap(
-      'open-browser-plugin',
-      async (stats: Stats) => {
-        // 没有打开过浏览器并且没有编译错误就打开浏览器
-        if (!this.hadBrowserOpened && !stats.hasErrors()) {
-          await open(address);
-          this.hadBrowserOpened = true;
-        }
-      }
-    );
-  }
-
-  private async initMock() {
-    // You can use mocker-api repo
-    const parentPath = paths.appMock;
-    const routesMap = await loadMockRoutes(parentPath, '/', {
-      include: /\.ts$/,
-    });
-    if (routesMap) {
-      const router = Router();
-      Object.entries(routesMap).forEach(([pathname, { method, handler }]) => {
-        if (method in router) {
-          if (Array.isArray(handler)) {
-            router[method](pathname, ...handler);
-          } else {
-            router[method](pathname, handler);
-          }
-        }
-      });
-      this.app.use(router);
-    }
-  }
-
-  private setProxy(options: Record<string, Options>) {
-    Object.entries(options).forEach(([path, option]) => {
-      const from = path;
-      const to = option.target;
-      console.log(
-        `proxy ${chalk.magenta.underline(from)} ${chalk.green(
-          '->'
-        )} ${chalk.magenta.underline(to)}`
-      );
-
-      this.app.use(
-        from,
-        createProxyMiddleware({
-          ...option,
-          logLevel: option.logLevel ? option.logLevel : 'warn',
-        })
-      );
-    });
-    process.stdout.write('\n');
   }
 
   async initWebpackDevServer(
@@ -99,42 +25,53 @@ class Application {
     } else {
       this.compiler = webpack(config);
     }
-    // 开启跨域
-    // 开发 chrome 扩展的时候可能需要开启跨域，参考：https://juejin.cn/post/6844904049276354567
-    this.app.use(cors());
 
-    // 刷新后不至于页面丢失
-    // Fall back to /index.html if nothing else matches.
-    this.app.use(history());
-    this.app.use(express.static(__dirname));
+    const server = new WebpackDevServer(this.compiler, {
+      contentBase: paths.appDist,
+      // 日志级别- 'info': 'silent' | 'trace' | 'debug' | 'info' | 'warn' | 'error'
+      clientLogLevel: 'warn',
+      // 当使用 HTML5 History API 时, 所有的 404 请求都会响应 index.html 的内容。适用于spa应用
+      historyApiFallback: true,
+      compress: true, // 为每个静态文件开启 gzip
+      hot: true, // 热加载
+      inline: true,
+      open: isOpenBrowser, // 自动打开浏览器
+      // 出现编译器错误或警告时，在浏览器中显示全屏覆盖
+      overlay: {
+        // 报错信息
+        warnings: false,
+        errors: false,
+      },
+      noInfo: false,
+      proxy: proxySetting, // 代理接口转发
+      quiet: true, // 日志信息
+      watchOptions: {
+        aggregateTimeout: 300,
+        poll: 1000,
+      },
+      before(app) {
+        // logging
+        // app.use(morgan('combined'));
+        // mock
+        if (mock) mockServer(app);
+      },
+      // setup(app) {  此配置项将被 devServer.before 所替代，并将在 v4.0.0 中删除。
+      //   if (mock) mockServer(app);
+      // },
+      // 配置 https 需要的证书等
+      // https: {
+      //   cert: fs.readFileSync("path-to-cert-file.pem"),
+      //   key: fs.readFileSync("path-to-key-file.pem"),
+      //   cacert: fs.readFileSync("path-to-cacert-file.pem")
+      // }
+    });
 
-    // 以及将 webpack.config.js 配置文件作为基础配置。
-    this.app.use(
-      webpackDevMiddleware(this.compiler, {
-        // 只在发生错误或有新的编译时输出
-        stats: 'errors-warnings',
-      })
-    );
-
-    // 热更新
-    this.app.use(
-      webpackHotMiddleware(this.compiler, {
-        path: '/__webpack_hmr',
-        log: false,
-      })
-    );
-
-    // mock
-    if (mock) {
-      this.initMock();
-    }
-
-    this.setProxy(proxySetting);
-
-    this.listen(port);
-    if (isOpenBrowser) {
-      this.openBrowser(`http://localhost:${port}`);
-    }
+    server.listen(port, '0.0.0.0', () => {
+      console.log('\n');
+      console.log(
+        chalk.cyan(`server is running at: http://localhost:${port}/\n`)
+      );
+    });
   }
 
   async initWebpackProdServer(
