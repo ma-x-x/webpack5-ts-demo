@@ -14945,9 +14945,9 @@ specificity@^0.4.1:
   resolved "https://registry.nlark.com/specificity/download/specificity-0.4.1.tgz#aab5e645012db08ba182e151165738d00887b019"
   integrity sha1-qrXmRQEtsIuhguFRFlc40AiHsBk=
 
-speed-measure-webpack-plugin@^1.4.2:
+speed-measure-webpack-plugin@^1.5.0:
   version "1.5.0"
-  resolved "https://registry.npm.taobao.org/speed-measure-webpack-plugin/download/speed-measure-webpack-plugin-1.5.0.tgz?cache=0&sync_timestamp=1616943241178&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fspeed-measure-webpack-plugin%2Fdownload%2Fspeed-measure-webpack-plugin-1.5.0.tgz#caf2c5bee24ab66c1c7c30e8daa7910497f7681a"
+  resolved "https://registry.npm.taobao.org/speed-measure-webpack-plugin/download/speed-measure-webpack-plugin-1.5.0.tgz?cache=0&sync_timestamp=1616943640455&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fspeed-measure-webpack-plugin%2Fdownload%2Fspeed-measure-webpack-plugin-1.5.0.tgz#caf2c5bee24ab66c1c7c30e8daa7910497f7681a"
   integrity sha1-yvLFvuJKtmwcfDDo2qeRBJf3aBo=
   dependencies:
     chalk "^4.1.0"
